@@ -30,11 +30,11 @@ if image_jpg.is_file():
 
 
 
-r = praw.Reddit(user_agent='WallpaperGrab')
+r = praw.Reddit('script', user_agent='WallpaperGrab')
  
                      
 print("Fetching wallpaper..")
-wallpaper=r.get_subreddit('wallpapers').get_hot(limit=1)
+wallpaper=r.subreddit('wallpapers').hot(limit=1)
 for item in wallpaper:
         stock_URL = item.url
 
