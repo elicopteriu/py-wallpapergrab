@@ -1,6 +1,7 @@
 import ctypes
 import praw
 import os
+import subprocess
 import requests
 import shutil
 import io
@@ -8,16 +9,8 @@ import io
 from pathlib import Path
 
 print("Setting directory...")
-directory = os.getcwd()
-directory += "\\" + "image.bmp"
 directory_jpg = os.getcwd()
-directory_jpg = directory_jpg + "\\" + "image.jpg"
-
-print("Checking if older image exists...")
-image=Path(directory)
-if image.is_file():
-        os.remove(directory)
-        print("Deleting .bmp file")
+directory_jpg = directory_jpg + "/" + "image.jpg"
 
 
 
@@ -54,22 +47,9 @@ with io.open(directory_jpg, 'wb') as file:
         file.write(download.content)
 
 
-os.rename('image.jpg','image.bmp')
+commandCall = "pcmanfm --set-wallpaper=" + directory_jpg
 
+subprocess.call(commandCall, shell=True)
 
-
-
-
-SPI_SETDESKWALLPAPER = 0x14     #which command (20)
-
-SPIF_UPDATEINIFILE   = 0x2 #forces instant update
-src = directory #full file location
-#in python 3.4 you have to add 'r' before "path\img.jpg"
-
-print(ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, src, SPIF_UPDATEINIFILE))
-#SystemParametersInfoW instead of SystemParametersInfoA (W instead of A)
-
-print("Wallpaper set")
-print("Done")
 
 
